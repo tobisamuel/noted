@@ -59,7 +59,7 @@ const NoteEditForm = ({
   }, [formik.values.content]);
 
   return (
-    <div className="min-h-[250px] bg-gray-100 bg-opacity-80">
+    <div className="min-h-[250px] bg-gray-100 bg-opacity-80 shadow-lg">
       <form className="p-4 h-full flex flex-col">
         <div className="basis-1/4">
           <h1 className="text-xl font-medium text-zinc-700 sm:text-2xl">

@@ -14,7 +14,7 @@ const LoginForm = () => {
   const { setAuth } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const pathname = (location.state as LocationState)?.from.pathname || "/notes";
+  const pathname = (location.state as LocationState)?.from.pathname;
 
   const formik = useFormik({
     initialValues: {
@@ -26,7 +26,7 @@ const LoginForm = () => {
         const auth = await login(data);
         setAuth(auth);
         resetForm();
-        navigate(pathname, { replace: true });
+        navigate(pathname || "/notes", { replace: true });
       } catch (error) {
         console.log(error);
       }
