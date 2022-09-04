@@ -1,5 +1,4 @@
 import { FC, PropsWithChildren, useState } from "react";
-import { logoutUser } from "../../api/requests";
 import { AuthContext, AuthType } from "./context";
 
 export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {

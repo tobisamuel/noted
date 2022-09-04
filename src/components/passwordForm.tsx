@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import useAuth from "../hooks/useAuth";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import useId from "../hooks/useID";
 
 type PassArgs = {
   id: string;
@@ -12,8 +12,7 @@ type PassArgs = {
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 const PasswordForm = () => {
-  const { auth } = useAuth();
-  const userId = auth.userId!;
+  const userId = useId();
   const axiosPrivate = useAxiosPrivate();
 
   const changePassword = async (data: PassArgs) => {

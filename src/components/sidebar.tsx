@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { FaBars, FaSignOutAlt, FaTasks, FaUser } from "react-icons/fa";
-import { FcTodoList } from "react-icons/fc";
+import { FaBars, FaSignOutAlt, FaTasks } from "react-icons/fa";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);

@@ -10,6 +10,7 @@ import {
 import RequireAuth from "./components/requireAuth";
 import ProfileForm from "./components/profileForm";
 import PasswordForm from "./components/passwordForm";
+import PersistLogin from "./components/persistLogin";
 
 function App() {
   return (
@@ -18,11 +19,13 @@ function App() {
       <Route path="login" element={<LoginPage />} />
       <Route path="register" element={<SignUpPage />} />
 
-      <Route element={<RequireAuth />}>
-        <Route path="notes" element={<NotesPage />} />
-        <Route path="account" element={<ProfilePage />}>
-          <Route path="profile" element={<ProfileForm />} />
-          <Route path="password" element={<PasswordForm />} />
+      <Route element={<PersistLogin />}>
+        <Route element={<RequireAuth />}>
+          <Route path="notes" element={<NotesPage />} />
+          <Route path="account" element={<ProfilePage />}>
+            <Route path="profile" element={<ProfileForm />} />
+            <Route path="password" element={<PasswordForm />} />
+          </Route>
         </Route>
       </Route>
 

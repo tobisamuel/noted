@@ -31,7 +31,7 @@ const NoteItem = ({ note }: NoteItemProps) => {
     return <NoteEditForm {...note} closeForm={toggleForm} />;
   } else {
     return (
-      <div className="p-4 min-h-[250px] flex flex-col bg-gray-100">
+      <div className="p-4 min-h-[250px] flex flex-col bg-gray-100 shadow-lg">
         <div className="basis-1/4">
           <h1 className="text-xl font-medium text-zinc-700 sm:text-2xl">
             {note.title}

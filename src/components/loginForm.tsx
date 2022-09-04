@@ -1,4 +1,3 @@
-import { useLayoutEffect, useRef } from "react";
 import { useFormik } from "formik";
 import { useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
@@ -13,16 +12,9 @@ interface LocationState {
 
 const LoginForm = () => {
   const { setAuth } = useAuth();
-  const userRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const pathname = (location.state as LocationState)?.from.pathname;
-
-  useLayoutEffect(() => {
-    if (userRef.current !== null) {
-      userRef.current.focus();
-    }
-  }, []);
+  const pathname = (location.state as LocationState)?.from.pathname || "/notes";
 
   const formik = useFormik({
     initialValues: {
@@ -34,7 +26,7 @@ const LoginForm = () => {
         const auth = await login(data);
         setAuth(auth);
         resetForm();
-        navigate(pathname || "/notes", { replace: true });
+        navigate(pathname, { replace: true });
       } catch (error) {
         console.log(error);
       }
@@ -47,53 +39,59 @@ const LoginForm = () => {
     }),
   });
 
+  const renderErrorMessage = (field: string) => {
+    return formik.touched[field as keyof typeof formik.touched] &&
+      formik.errors[field as keyof typeof formik.errors] ? (
+      <span className="text-sm text-red-500">
+        {formik.errors[field as keyof typeof formik.errors]}
+      </span>
+    ) : null;
+  };
+
   return (
     <form className="flex flex-col mt-8" onSubmit={formik.handleSubmit}>
       <div>
-        <label htmlFor="email" className="inline-block text-sm font-semibold">
-          Email Address
-        </label>
-        <input
-          id="email"
-          className={`w-full border-2 px-2 py-3 mt-1 rounded-md text-base font-normal ${
-            formik.errors.email ? "outline-red-500" : "outline-green-500"
-          } focus:outline-2 focus:outline-offset-0`}
-          type="text"
-          autoComplete="off"
-          ref={userRef}
-          {...formik.getFieldProps("email")}
-          required
-        />
+        <fieldset>
+          <label htmlFor="email" className="inline-block text-sm font-semibold">
+            Email Address
+          </label>
+          <input
+            id="email"
+            className={`w-full border-2 px-2 py-3 mt-1 rounded-md text-base font-normal ${
+              formik.errors.email ? "outline-red-500" : "outline-green-500"
+            } focus:outline-2 focus:outline-offset-0`}
+            type="text"
+            autoComplete="off"
+            {...formik.getFieldProps("email")}
+            required
+          />
+          {renderErrorMessage("email")}
+        </fieldset>
 
-        {formik.touched.email && formik.errors.email ? (
-          <p className="text-sm text-red-500">{formik.errors.email}</p>
-        ) : null}
-
-        <label
-          htmlFor="password"
-          className="inline-block mt-3 text-sm font-semibold"
-        >
-          Password
-        </label>
-        <input
-          id="password"
-          className={`w-full border-2 px-2 py-3 mt-1 rounded-md ${
-            formik.errors.password ? "outline-red-500" : "outline-green-500"
-          } focus:outline-2 focus:outline-offset-0`}
-          type="password"
-          autoComplete="off"
-          {...formik.getFieldProps("password")}
-        />
-
-        {formik.touched.password && formik.errors.password ? (
-          <p className="text-sm text-red-500">{formik.errors.password}</p>
-        ) : null}
+        <fieldset>
+          <label
+            htmlFor="password"
+            className="inline-block mt-3 text-sm font-semibold"
+          >
+            Password
+          </label>
+          <input
+            id="password"
+            className={`w-full border-2 px-2 py-3 mt-1 rounded-md ${
+              formik.errors.password ? "outline-red-500" : "outline-green-500"
+            } focus:outline-2 focus:outline-offset-0`}
+            type="password"
+            autoComplete="off"
+            {...formik.getFieldProps("password")}
+          />
+          {renderErrorMessage("password")}
+        </fieldset>
       </div>
 
       <button
-        className="mt-4 p-3 bg-zinc-600 text-white text-md font-medium rounded-md"
+        className="mt-4 p-3 bg-zinc-600 text-white text-md font-medium rounded-md hover:bg-zinc-700 disabled:bg-zinc-200 disabled:text-zinc-400 transition-all duration-300"
         type="submit"
-        disabled={formik.isSubmitting}
+        disabled={!(formik.isValid && formik.dirty) || formik.isSubmitting}
       >
         Sign In
       </button>
