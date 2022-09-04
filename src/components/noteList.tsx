@@ -2,7 +2,7 @@ import useFetchNotes from "../hooks/useFetchNotes";
 import NoteItem from "./noteItem";
 import NoteForm from "./noteForm";
 import Spinner from "./spinner";
-import useId from "../hooks/useID";
+import useId from "../hooks/useId";
 
 const NoteList = () => {
   const userId = useId();

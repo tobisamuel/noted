@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import useId from "../hooks/useID";
+import useId from "../hooks/useId";
 import useFetchUser from "../hooks/useFetchUser";
 import { updateUser } from "../api/requests";
 import { User } from "../utils/types";
