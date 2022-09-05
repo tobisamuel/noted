@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { useFormik } from "formik";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import signUp from "../api/signup";
+import { getErrorStatus } from "../api/axios";
 
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 const SignupForm = () => {
+  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
-  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -24,13 +25,22 @@ const SignupForm = () => {
         setSuccess(true);
         resetForm();
       } catch (error) {
-        console.log(error);
+        const status = getErrorStatus(error);
+        if (status === 400) {
+          setError("Missing credentials. Please input all your details.");
+        } else if (status === 409) {
+          setError(
+            "A user with this email address already exists. Please try again."
+          );
+        } else {
+          setError("Internal server error. Please try again later.");
+        }
       }
     },
     validationSchema: Yup.object({
       email: Yup.string()
-        .email("Enter a valid email")
-        .required("This field is required"),
+        .email("Please enter a valid email address")
+        .required("Please enter a valid email address"),
       firstName: Yup.string()
         .max(15, "Must be 15 characters or less")
         .required("This field is required"),
@@ -40,12 +50,12 @@ const SignupForm = () => {
       password: Yup.string()
         .matches(
           PWD_REGEX,
-          "Must be between 8 to 24 characters. Must include uppercase and lowercase letters, a number and a special character (!, #  or @)."
+          "Passwords must be between 8 to 24 characters. Must include uppercase and lowercase letters, a number and a special character (!, #  or @)."
         )
-        .required("Enter your password"),
+        .required("Please enter a password"),
       confirmPassword: Yup.string()
         .oneOf([Yup.ref("password")], "Passwords do not match.")
-        .required("Enter your password"),
+        .required("Please enter a password"),
     }),
   });
 
@@ -61,9 +71,9 @@ const SignupForm = () => {
   return (
     <>
       {success ? (
-        <div className="mt-4 px-4 py-2 bg-zinc-100 rounded">
+        <div className="mt-3 py-2 rounded">
           <p>
-            <span className="text-green-500">Success! </span>
+            <span className="font-semibold text-green-500">Success! </span>
             <b className="font-semibold text-zinc-700">
               <Link to="/login">Login</Link>
             </b>{" "}
@@ -71,6 +81,8 @@ const SignupForm = () => {
           </p>
         </div>
       ) : null}
+
+      {error && <p className="mt-2 font-semibold text-red-500 ">{error}</p>}
 
       <form className="flex flex-col mt-4" onSubmit={formik.handleSubmit}>
         <div className="space-y-3">

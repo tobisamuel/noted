@@ -3,6 +3,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { login } from "../api/requests";
 import * as Yup from "yup";
+import { useState } from "react";
+import { getErrorStatus } from "../api/axios";
 
 interface LocationState {
   from: {
@@ -11,6 +13,7 @@ interface LocationState {
 }
 
 const LoginForm = () => {
+  const [error, setError] = useState("");
   const { setAuth } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -28,14 +31,21 @@ const LoginForm = () => {
         resetForm();
         navigate(pathname || "/notes", { replace: true });
       } catch (error) {
-        console.log(error);
+        const status = getErrorStatus(error);
+        if (status === 400) {
+          setError("Missing email or Password");
+        } else if (status === 401) {
+          setError("Please enter a valid email address and password.");
+        } else {
+          setError("Login Failed");
+        }
       }
     },
     validationSchema: Yup.object({
       email: Yup.string()
-        .email("Enter a valid email")
-        .required("This field is required"),
-      password: Yup.string().required("Enter your password"),
+        .email("Please enter a valid email")
+        .required("Please enter a valid email"),
+      password: Yup.string().required("Please enter your password"),
     }),
   });
 
@@ -49,7 +59,10 @@ const LoginForm = () => {
   };
 
   return (
-    <form className="flex flex-col mt-8" onSubmit={formik.handleSubmit}>
+    <form className="flex flex-col mt-6" onSubmit={formik.handleSubmit}>
+      {error && (
+        <p className="mb-3 pb-2 font-semibold text-red-500 ">{error}</p>
+      )}
       <div>
         <fieldset>
           <label htmlFor="email" className="inline-block text-sm font-semibold">

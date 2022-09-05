@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 const BASE_URL = "https://noted-app-api.herokuapp.com";
 
@@ -9,3 +9,7 @@ export const axiosPrivate = axios.create({
   headers: { "Content-Type": "application/json" },
   withCredentials: true,
 });
+
+export function getErrorStatus(error: unknown) {
+  if (error instanceof AxiosError) return error.response?.status;
+}
