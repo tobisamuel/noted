@@ -1,7 +1,6 @@
 import { useLayoutEffect, useRef } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useFormik } from "formik";
-import React from "react";
 import { updateNote } from "../api/requests";
 import { Note } from "../utils/types";
 import { FaTimes } from "react-icons/fa";
@@ -30,12 +29,6 @@ const NoteEditForm = ({
     },
   });
 
-  const handleSubmitNote = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter") {
-      formik.submitForm();
-    }
-  };
-
   const formik = useFormik<Note>({
     initialValues: {
       _id,
@@ -59,9 +52,9 @@ const NoteEditForm = ({
   }, [formik.values.content]);
 
   return (
-    <div className="min-h-[250px] bg-gray-100 bg-opacity-80 shadow-lg">
-      <form className="p-4 h-full flex flex-col">
-        <div className="basis-1/4">
+    <div className="min-h-[250px] bg-gray-200 shadow-lg">
+      <form className="p-4 h-full flex flex-col" onSubmit={formik.handleSubmit}>
+        <div>
           <h1 className="text-xl font-medium text-zinc-700 sm:text-2xl">
             <input
               className="w-full mb-3 bg-transparent text-xl font-medium sm:text-2xl focus:outline-none"
@@ -73,7 +66,7 @@ const NoteEditForm = ({
             />
           </h1>
         </div>
-        <div className="basis-2/4">
+        <div className="flex-auto">
           <textarea
             className="w-full  leading-relaxed break-words bg-transparent resize-none focus:outline-none"
             placeholder="Write a note..."
@@ -81,17 +74,24 @@ const NoteEditForm = ({
             autoFocus
             cols={40}
             ref={textareaRef}
-            onKeyDown={handleSubmitNote}
             {...formik.getFieldProps("content")}
           />
         </div>
-        <div className="basis-1/4 flex justify-start items-end">
+
+        <div className="flex justify-between items-end">
           <button
-            className="p-2 rounded-full text-lg text-zinc-500 hover:bg-zinc-200"
+            className="p-2 rounded-full text-lg text-zinc-500 hover:bg-zinc-300"
             type="button"
             onClick={closeForm}
           >
             <FaTimes />
+          </button>
+
+          <button
+            type="submit"
+            className="px-3 py-1 bg-zinc-400 rounded-lg border-2 border-zinc-300 text-white"
+          >
+            Save
           </button>
         </div>
       </form>

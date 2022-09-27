@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import useId from "../hooks/useId";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createNote } from "../api/requests";
+import Spinner from "./spinner";
 
 export type NoteDeets = {
   title: string;
@@ -21,12 +22,6 @@ const NoteForm = () => {
     },
   });
 
-  const handleSubmitNote = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter") {
-      formik.submitForm();
-    }
-  };
-
   const formik = useFormik<NoteDeets>({
     initialValues: {
       title: "",
@@ -39,6 +34,8 @@ const NoteForm = () => {
     },
   });
 
+  const disabled = postMutation.isLoading;
+
   useLayoutEffect(() => {
     if (textareaRef && textareaRef.current) {
       textareaRef.current.style.height = "0px";
@@ -48,9 +45,10 @@ const NoteForm = () => {
   }, [formik.values.content]);
 
   return (
-    <div className="min-h-[250px] bg-gray-100">
-      <form className="p-4 h-full flex flex-col">
-        <div className="basis-1/4 flex-none">
+    <div className="min-h-[250px] bg-gray-200">
+      {postMutation.isLoading && <Spinner />}
+      <form className="p-4 h-full flex flex-col" onSubmit={formik.handleSubmit}>
+        <div>
           <input
             className="block w-full mb-3 bg-transparent text-xl font-medium sm:text-2xl focus:outline-none"
             type="text"
@@ -59,15 +57,27 @@ const NoteForm = () => {
             {...formik.getFieldProps("title")}
           />
         </div>
-        <div className="basis-3/4">
+        <div className="flex-auto">
           <textarea
             className="w-full leading-relaxed bg-transparent resize-none focus:outline-none"
             placeholder="Write a Note..."
             autoComplete="off"
             ref={textareaRef}
             {...formik.getFieldProps("content")}
-            onKeyDown={handleSubmitNote}
           />
+        </div>
+        <div className="flex justify-end items-end">
+          <button
+            type="submit"
+            className="h-9 w-16 px-3 py-1 bg-zinc-400 rounded-lg border-2 flex justify-center items-center border-zinc-300 text-white disabled:cursor-not-allowed"
+            disabled={disabled}
+          >
+            {postMutation.isLoading ? (
+              <div className="border-2 border-t-2 border-white border-t-gray-300 rounded-full h-4 w-4 animate-spin"></div>
+            ) : (
+              <span>Save</span>
+            )}
+          </button>
         </div>
       </form>
     </div>
