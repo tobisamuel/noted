@@ -51,6 +51,10 @@ const PasswordForm = () => {
 
   return (
     <div>
+      <h1 className="mb-6 text-2xl text-zinc-600 font-medium">
+        Change Password
+      </h1>
+
       <form className="space-y-4" onSubmit={formik.handleSubmit}>
         <fieldset>
           <label

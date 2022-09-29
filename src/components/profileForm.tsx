@@ -43,66 +43,72 @@ const ProfileForm = () => {
   if (isLoading) return <Spinner />;
 
   return (
-    <form className="space-y-4" onSubmit={formik.handleSubmit}>
-      <fieldset>
-        <label htmlFor="firstName" className="block mb-4 text-sm font-medium">
-          First Name
-        </label>
+    <div>
+      <h1 className="mb-6 text-2xl text-zinc-600 font-medium">
+        Personal Details
+      </h1>
 
-        <input
-          className="w-full block border-2 p-3 rounded-md text-sm"
-          id="firstName"
-          type="text"
-          autoComplete="off"
-          {...formik.getFieldProps("firstName")}
-        />
+      <form className="space-y-4" onSubmit={formik.handleSubmit}>
+        <fieldset>
+          <label htmlFor="firstName" className="block mb-4 text-sm font-medium">
+            First Name
+          </label>
 
-        {formik.touched.firstName && formik.errors.firstName ? (
-          <p className="text-sm text-red-500">{formik.errors.firstName}</p>
-        ) : null}
-      </fieldset>
+          <input
+            className="w-full block border-2 p-3 rounded-md text-sm"
+            id="firstName"
+            type="text"
+            autoComplete="off"
+            {...formik.getFieldProps("firstName")}
+          />
 
-      <fieldset>
-        <label htmlFor="lastName" className="block mb-4 text-sm font-medium">
-          Last Name
-        </label>
+          {formik.touched.firstName && formik.errors.firstName ? (
+            <p className="text-sm text-red-500">{formik.errors.firstName}</p>
+          ) : null}
+        </fieldset>
 
-        <input
-          className="w-full block border-2 p-3 rounded-md text-sm"
-          id="lastName"
-          type="text"
-          autoComplete="off"
-          {...formik.getFieldProps("lastName")}
-        />
+        <fieldset>
+          <label htmlFor="lastName" className="block mb-4 text-sm font-medium">
+            Last Name
+          </label>
 
-        {formik.touched.lastName && formik.errors.lastName ? (
-          <p className="text-sm text-red-500">{formik.errors.lastName}</p>
-        ) : null}
-      </fieldset>
+          <input
+            className="w-full block border-2 p-3 rounded-md text-sm"
+            id="lastName"
+            type="text"
+            autoComplete="off"
+            {...formik.getFieldProps("lastName")}
+          />
 
-      <fieldset>
-        <label htmlFor="email" className="block mb-4 text-sm font-medium">
-          Email
-        </label>
+          {formik.touched.lastName && formik.errors.lastName ? (
+            <p className="text-sm text-red-500">{formik.errors.lastName}</p>
+          ) : null}
+        </fieldset>
 
-        <input
-          className="w-full block border-2 p-3 rounded-md text-sm"
-          id="email"
-          type="text"
-          disabled
-          {...formik.getFieldProps("email")}
-        />
-      </fieldset>
+        <fieldset>
+          <label htmlFor="email" className="block mb-4 text-sm font-medium">
+            Email
+          </label>
 
-      <div className="text-right">
-        <button
-          type="submit"
-          className="text-white font-medium mt-8 px-5 py-2 bg-zinc-500 rounded-md"
-        >
-          Edit Profile
-        </button>
-      </div>
-    </form>
+          <input
+            className="w-full block border-2 p-3 rounded-md text-sm"
+            id="email"
+            type="text"
+            disabled
+            {...formik.getFieldProps("email")}
+          />
+        </fieldset>
+
+        <div className="text-right">
+          <button
+            type="submit"
+            className="text-white font-medium mt-8 px-5 py-2 bg-zinc-500 rounded-md"
+          >
+            Edit Profile
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 
