@@ -5,8 +5,8 @@ type Props = {
 
 const ConfirmDelete = ({ handleDelete, closeModal }: Props) => {
   return (
-    <div className="absolute h-full w-full flex justify-center items-center bg-black/50">
-      <div className="w-80  flex justify-center items-center bg-white rounded-lg">
+    <div className="absolute w-full min-h-full flex justify-center items-center bg-black/50">
+      <div className="w-80 flex justify-center items-center bg-white rounded-lg">
         <div className="p-6 text-center">
           <div>
             <h3 className="mb-5 text-lg font-normal text-zinc-600">

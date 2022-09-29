@@ -50,15 +50,15 @@ const NoteItem = ({ note }: NoteItemProps) => {
           <div className="flex-auto leading-relaxed break-words">
             {note.content}
           </div>
-          <div className="flex justify-start items-end">
+          <div className="flex justify-start items-end gap-2">
             <button
-              className="p-2 rounded-full text-lg text-zinc-500 hover:bg-zinc-200"
+              className="text-lg text-zinc-400 hover:text-zinc-600"
               onClick={toggleForm}
             >
               <FaEdit />
             </button>
             <button
-              className="p-2 rounded-full text-lg text-zinc-500 hover:bg-zinc-200"
+              className="text-lg text-zinc-400 hover:text-red-600"
               onClick={() => setShowModal(true)}
             >
               <FaTrashAlt />

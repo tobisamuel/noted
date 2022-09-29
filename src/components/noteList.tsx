@@ -7,7 +7,7 @@ import useId from "../hooks/useId";
 const NoteList = () => {
   const userId = useId();
 
-  const { data, error, isError, isLoading } = useFetchNotes(userId);
+  const { data, isLoading } = useFetchNotes(userId);
 
   if (isLoading) return <Spinner />;
 

@@ -102,11 +102,18 @@ const LoginForm = () => {
       </div>
 
       <button
-        className="mt-4 p-3 bg-zinc-600 text-white text-md font-medium rounded-md hover:bg-zinc-700 disabled:bg-zinc-200 disabled:text-zinc-400 transition-all duration-300"
+        className="mt-4 p-3 flex justify-center bg-zinc-600 text-white text-md font-medium rounded-md hover:bg-zinc-700 disabled:bg-zinc-200 disabled:text-zinc-400 transition-all duration-300"
         type="submit"
         disabled={!(formik.isValid && formik.dirty) || formik.isSubmitting}
       >
-        Sign In
+        <div className="flex items-center gap-2">
+          <span>Sign In</span>
+          <span
+            className={`${
+              formik.isSubmitting ? "block" : "hidden"
+            } border-2 border-t-2  border-t-white rounded-full h-4 w-4 animate-spin border-zinc-400`}
+          ></span>
+        </div>
       </button>
     </form>
   );
